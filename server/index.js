@@ -9,11 +9,6 @@ const express = require('express'),
 
 app.use(express.json());
 
-app.use(session({
-   resave: true,
-   saveUninitialized: false,
-   secret: SESSION_SECRET
-}))
 
 massive({
    connectionString: CONNECTION_STRING,
@@ -25,4 +20,11 @@ massive({
    app.listen(port, ()=> console.log(`Server is running on port: ${port}`));
 })
 
-app.post(`/api/register`, authCtrl.register);
+app.use(session({
+   resave: true,
+   saveUninitialized: false,
+   secret: SESSION_SECRET
+}))
+
+app.post(`/auth/register`, authCtrl.register);
+app.post('/auth/login', authCtrl.login);
